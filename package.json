@@ -16,25 +16,24 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
-    "@strapi/provider-upload-local": "5.18.1",
+    "@strapi-community/cloudinary-media-library": "^1.0.1",
+    "@strapi/plugin-cloud": "5.12.7",
+    "@strapi/plugin-color-picker": "^5.13.0",
     "@strapi/plugin-users-permissions": "5.18.1",
+    "@strapi/provider-email-nodemailer": "^5.16.0",
+    "@strapi/provider-upload-cloudinary": "^5.16.0",
+    "@strapi/provider-upload-local": "5.18.1",
     "@strapi/strapi": "5.18.1",
+    "better-sqlite3": "11.3.0",
+    "fs-extra": "^10.0.0",
+    "mime-types": "^2.1.27",
     "pg": "8.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0",
-    "@strapi-community/cloudinary-media-library": "^1.0.1",
-    "@strapi/plugin-cloud": "5.12.7",
-    "@strapi/plugin-color-picker": "^5.13.0",
-    "@strapi/provider-email-nodemailer": "^5.16.0",
-    "@strapi/provider-upload-cloudinary": "^5.16.0",
-    "better-sqlite3": "11.3.0",
-    "fs-extra": "^10.0.0",
-    "mime-types": "^2.1.27",
-    "stripe": "^18.2.1"
+    "stripe": "^18.2.1",
+    "styled-components": "^6.0.0"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=18.0.0 <=22.x.x",
     "npm": ">=6.0.0"
@@ -42,5 +41,6 @@
   "strapi": {
     "uuid": "505ed8a2-7f79-43e7-b156-69dcefe7d230",
     "installId": "65d6129219f8c6eae3fd0b380b3136726203045b5a1dbf1be576f3f6b9ce6062"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
