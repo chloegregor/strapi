@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deployments",
+  "info": {
+    "singularName": "deployment",
+    "pluralName": "deployments",
+    "displayName": "deployment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "changes": {
+      "type": "text"
+    }
+  }
+}

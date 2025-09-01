@@ -484,6 +484,35 @@ export interface ApiCouleurCouleur extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDeploymentDeployment extends Struct.CollectionTypeSchema {
+  collectionName: 'deployments';
+  info: {
+    displayName: 'deployment';
+    pluralName: 'deployments';
+    singularName: 'deployment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    changes: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::deployment.deployment'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -1358,6 +1387,7 @@ declare module '@strapi/strapi' {
       'api::commande-line.commande-line': ApiCommandeLineCommandeLine;
       'api::commande.commande': ApiCommandeCommande;
       'api::couleur.couleur': ApiCouleurCouleur;
+      'api::deployment.deployment': ApiDeploymentDeployment;
       'api::global.global': ApiGlobalGlobal;
       'api::livraison.livraison': ApiLivraisonLivraison;
       'api::matiere.matiere': ApiMatiereMatiere;
