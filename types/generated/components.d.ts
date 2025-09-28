@@ -102,8 +102,8 @@ export interface SharedTexteImage extends Struct.ComponentSchema {
   };
   attributes: {
     photo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    texte: Schema.Attribute.RichText;
-    titre: Schema.Attribute.String;
+    texte: Schema.Attribute.RichText & Schema.Attribute.Required;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -124,7 +124,7 @@ export interface SharedTitrePage extends Struct.ComponentSchema {
     displayName: 'titrePage';
   };
   attributes: {
-    titre: Schema.Attribute.String;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 

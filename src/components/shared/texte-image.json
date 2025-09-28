@@ -6,20 +6,23 @@
   "options": {},
   "attributes": {
     "titre": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": false
     },
     "texte": {
-      "type": "richtext"
+      "type": "richtext",
+      "required": true
     },
     "photo": {
+      "type": "media",
+      "multiple": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     }
   }
 }
