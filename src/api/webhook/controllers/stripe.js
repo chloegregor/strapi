@@ -17,11 +17,12 @@ module.exports ={
   async handleStripeWebhook(ctx) {
       console.log('→ Entrée dans handleStripeWebhook');
     const sig = ctx.request.headers['stripe-signature'];
+    console.log('→ sig:', sig); // debug
     const webhookSecret = process.env.SECRET_STRIPE_WEBHOOK;
     let event;
     try {
       const rawBody = ctx.request.body[Symbol.for("unparsedBody")];
-      console.log('→ §§§§§§§!!!!!!!!%%%%%%%% rawBody:', rawBody); // debug
+      console.log('→ rawBody:', rawBody); // debug
       if (!rawBody) {
         console.error('⚠️ No raw body found in the request');
         return ctx.badRequest('Webhook Error: No raw body found');
