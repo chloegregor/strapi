@@ -17,8 +17,9 @@ module.exports ={
   async handleStripeWebhook(ctx) {
       console.log('→ Entrée dans handleStripeWebhook');
     const sig = ctx.request.headers['stripe-signature'];
-    console.log('→ sig:', sig); // debug
+    console.log('→ sig salulu:', sig); // debug
     const webhookSecret = process.env.SECRET_STRIPE_WEBHOOK;
+    console.log('→ webhookSecret:', `"${webhookSecret}"`);
     let event;
     try {
       const rawBody = ctx.request.body[Symbol.for("unparsedBody")];
@@ -153,7 +154,7 @@ module.exports ={
         console.log('→ Commande created successfully');
       }catch (error) {
         console.error('⚠️ Error creating Commande:', error);
-        return ctx.badRequest('Webhook Error: Invalid metadata format');
+
       }
 
     }
