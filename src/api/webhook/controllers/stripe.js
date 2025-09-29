@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.SECRET_STRIPE);
 
 function FormAddress(address){
 
-  const street =  `${address.line1 || ''} ${address.line2 || ''}`.trim()
+  const street =  `${address.line1 || ''}, ${address.line2 || ''}`.trim()
   const city = address.city || ''
   const state = address.country || ''
   const postalCode = address.postal_code || ''
@@ -16,12 +16,12 @@ function FormAddress(address){
 module.exports ={
   async handleStripeWebhook(ctx) {
       console.log('→ Entrée dans handleStripeWebhook');
-      console.log('→ ctx.request.body:', ctx.request.body); // debug
     const sig = ctx.request.headers['stripe-signature'];
     const webhookSecret = process.env.SECRET_STRIPE_WEBHOOK;
     let event;
     try {
       const rawBody = ctx.request.body[Symbol.for("unparsedBody")];
+      console.log('→ §§§§§§§!!!!!!!!%%%%%%%% rawBody:', rawBody); // debug
       if (!rawBody) {
         console.error('⚠️ No raw body found in the request');
         return ctx.badRequest('Webhook Error: No raw body found');
