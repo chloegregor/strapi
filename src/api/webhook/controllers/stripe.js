@@ -111,11 +111,11 @@ module.exports ={
 
       console.log('→ Commande created successfully');
 
-    ctx.send({
-      received: true
-    });
+      ctx.send({
+        received: true
+      });
     }
-    
+
     if (event.type === 'checkout.session.expired') {
       const session  = event.data.object
       const items = session.metadata.items ? JSON.parse(session.metadata.items) : [];
