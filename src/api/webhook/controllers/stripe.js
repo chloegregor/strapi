@@ -43,6 +43,9 @@ module.exports ={
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
 
+      ctx.send({
+        received: true
+      });
 
       const items = session.metadata.items ? JSON.parse(session.metadata.items) : [];
       const email = session.customer_details.email;
@@ -51,12 +54,12 @@ module.exports ={
 
       const createCommandeLine = await Promise.all(
         items.map (async (item) => {
-        console.log("creatin g commande line for item:", item);
-        const data = {
-          ...(item.type === "produit" ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
-          name: `${item.name} / ${item.taille} qty: ${item.quantity}`,
-          quantity: item.quantity,
-        }
+          console.log("creatin g commande line for item:", item);
+          const data = {
+            ...(item.type === "produit" ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
+            name: `${item.name} / ${item.taille} qty: ${item.quantity}`,
+            quantity: item.quantity,
+          }
 
 
         let product;
@@ -111,9 +114,6 @@ module.exports ={
 
       console.log('→ Commande created successfully');
 
-      ctx.send({
-        received: true
-      });
     }
 
     if (event.type === 'checkout.session.expired') {
