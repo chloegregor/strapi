@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.SECRET_STRIPE);
 
 function FormAddress(address){
 
-  const street =  `${address.line1 || ''}, ${address.line2 || ''}`.trim()
+  const street =  `${address.line1 || ''} ${address.line2 || ''}`.trim()
   const city = address.city || ''
   const state = address.country || ''
   const postalCode = address.postal_code || ''
@@ -40,49 +40,12 @@ module.exports ={
 
 
     }
-    if (event.type === 'checkout.session.expired') {
-      const session  = event.data.object
-      const items = session.metadata.items ? JSON.parse(session.metadata.items) : [];
-      try{
-        await Promise.all(
-          items.map(async (item) => {
-           let endpoint
-
-            if (item.type === "produit") {
-                endpoint = 'api::produit-couleur-size.produit-couleur-size'
-            } else if (item.type === "piece-unique") {
-                endpoint = 'api::piece-unique.piece-unique'
-            } else {
-              console.error(`⚠️ Unknown item type: ${item.type}`);
-              throw new Error(`Unknown item type: ${item.type}`);
-            }
-
-            let pcs = await strapi.documents(endpoint).findOne({
-              documentId: item.documentId
-            })
-            console.log("pcs d'expired session trouvée", pcs)
-            if (!pcs) {
-            console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
-            throw new Error(`Produit Couleur Size with ID ${item.documentId} not found`);
-
-          } pcs = await strapi.documents(endpoint).update({
-            documentId: item.documentId,
-            data: {
-              reserve: (pcs.reserve - item.quantity)
-            }
-          })
-
-          }
-        ))
-
-      }catch(error){
-
-        console.error('⚠️ Error updating reserve from expired product:', error);
-        return ctx.badRequest('Webhook Error: Invalid metadata format');
-      }
-    }
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
+
+      ctx.send({
+      received: true,
+      });
 
 
       try{
@@ -158,10 +121,47 @@ module.exports ={
       }
 
     }
-    return ctx.send({
-      received: true,
-      eventType: event.type,
-      sessionId: event.data.object.id
-    });
+    if (event.type === 'checkout.session.expired') {
+      const session  = event.data.object
+      const items = session.metadata.items ? JSON.parse(session.metadata.items) : [];
+      try{
+        await Promise.all(
+          items.map(async (item) => {
+           let endpoint
+
+            if (item.type === "produit") {
+                endpoint = 'api::produit-couleur-size.produit-couleur-size'
+            } else if (item.type === "piece-unique") {
+                endpoint = 'api::piece-unique.piece-unique'
+            } else {
+              console.error(`⚠️ Unknown item type: ${item.type}`);
+              throw new Error(`Unknown item type: ${item.type}`);
+            }
+
+            let pcs = await strapi.documents(endpoint).findOne({
+              documentId: item.documentId
+            })
+            console.log("pcs d'expired session trouvée", pcs)
+            if (!pcs) {
+            console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
+            throw new Error(`Produit Couleur Size with ID ${item.documentId} not found`);
+
+          } pcs = await strapi.documents(endpoint).update({
+            documentId: item.documentId,
+            data: {
+              reserve: (pcs.reserve - item.quantity)
+            }
+          })
+
+          }
+        ))
+
+      }catch(error){
+
+        console.error('⚠️ Error updating reserve from expired product:', error);
+        return ctx.badRequest('Webhook Error: Invalid metadata format');
+      }
+    }
+    return
   }
 }
