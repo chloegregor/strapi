@@ -5,21 +5,15 @@ module.exports = ({env}) => ({
     },
   },
   'email': {
-    config : {
-      provider: 'nodemailer',
+     config: {
+      provider: 'strapi-provider-email-resend',
       providerOptions: {
-        host: env('SMTP_HOST'),
-        port: env.int('SMTP_PORT'),
-        auth: {
-          user: env('SMTP_USERNAME'),
-          pass: env('SMTP_PASSWORD'),
-        },
+        apiKey: env('RESEND_API_KEY'), // Required
       },
       settings: {
-        defaultFrom: env('SMTP_DEFAULT_FROM'),
+        defaultFrom: 'no-reply@kraze.fr',
         defaultReplyTo: null,
-        testAddress: env('SMTP_TEST_ADDRESS'),
-        }
+      },
     }
   },
   upload:{
