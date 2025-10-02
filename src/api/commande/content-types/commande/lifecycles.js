@@ -38,7 +38,7 @@ module.exports = {
         to: 'contact@kraze.fr',
         subject: `Nouvelle commande de ${clientName} `,
         text: `Vous avez reçu une nouvelle commande de ${clientName} (${clientEmail}) - REFERENCE: ${result.documentId}\n\nAdresse: ${clientAddress}\n\nDétails de la commande:\n${commandeLines.map(line => `- ${line.name}`).join('\n')}`,
-        html: `<p>Vous avez reçu une nouvelle commande de <strong>${clientName}</strong> (${clientEmail})</p><p>REFERENCE: ${result.documentId}</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name}) </li>`).join('')}</ul>`,
+        html: `<p>Vous avez reçu une nouvelle commande de <strong>${clientName}</strong> (${clientEmail})</p><p>REFERENCE: ${result.documentId}</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name} </li>`).join('')}</ul>`,
     })
 
     await strapi.plugins['email'].services.email.send({
