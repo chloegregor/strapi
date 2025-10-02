@@ -37,16 +37,16 @@ module.exports = {
       await strapi.plugins['email'].services.email.send({
         to: 'contact@kraze.fr',
         subject: `Nouvelle commande de ${clientName} `,
-        text: `Vous avez reçu une nouvelle commande de ${clientName} (${clientEmail}) - REFERENCE: ${result.documentId}\n\nAdresse: ${clientAddress}\n\nDétails de la commande:\n${commandeLines.map(line => `- ${line.name} (Quantité: ${line.quantity})`).join('\n')}`,
-        html: `<p>Vous avez reçu une nouvelle commande de <strong>${clientName}</strong> (${clientEmail})</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name} </li>`).join('')}</ul>`,
+        text: `Vous avez reçu une nouvelle commande de ${clientName} (${clientEmail}) - REFERENCE: ${result.documentId}\n\nAdresse: ${clientAddress}\n\nDétails de la commande:\n${commandeLines.map(line => `- ${line.name}`).join('\n')}`,
+        html: `<p>Vous avez reçu une nouvelle commande de <strong>${clientName}</strong> (${clientEmail})</p><p>REFERENCE: ${result.documentId}</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name}) </li>`).join('')}</ul>`,
     })
 
     await strapi.plugins['email'].services.email.send({
         to: clientEmail,
 
-        subject: `Confirmation de votre commande ${result.documentId}`,
+        subject: `Confirmation de votre commande`,
         text: `Bonjour ${clientName},\n\nMerci pour votre commande !\n\nAdresse: ${clientAddress}\n\nDétails de la commande:\n${commandeLines.map(line => `- ${line.name}`).join('\n')}\n\nNous vous informerons lorsqu'elle aura été expédiée.\n\nCordialement,\n Kraze`,
-        html: `<p>Bonjour <strong>${clientName}</strong>,</p><p>Merci pour votre commande ! <p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name}</li>`).join('')}</ul><p>Nous vous informerons lorsqu'elle aura été expédiée.</p><p>Cordialement,<br>Kraze</p>
+        html: `<p>Bonjour <strong>${clientName}</strong>,</p><p>Merci pour votre commande !(référence : ${result.documentId}) <p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name}</li>`).join('')}</ul><p>Nous vous informerons lorsqu'elle aura été expédiée.</p><p>Cordialement,<br>Kraze</p>
         `,
     })
 
@@ -74,9 +74,9 @@ module.exports = {
       await strapi.plugins['email'].services.email.send({
         to: result.email,
         from: 'no-reply@kraze.fr',
-        subject: `Votre commande Kraze référence ${result.documentId} a été expédiée`,
+        subject: `Votre commande Kraze a été expédiée`,
         text: `Bonjour ${result.nom_complet},\n\nNous avons le plaisir de vous informer que votre commande référence ${result.documentId} a été expédiée.\n\nMerci pour votre confiance !\n\nCordialement,\nL'équipe Kraze`,
-        html: `<p>Bonjour <strong>${result.nom_complet}</strong>,</p><p>Nous avons le plaisir de vous informer que votre commande référence <strong>${result.documentId}</strong> a été expédiée.</p><p>Merci pour votre confiance !</p><p>Cordialement,<br>L'équipe Kraze</p>`,
+        html: `<p>Bonjour <strong>${result.nom_complet}</strong>,</p><p>Nous avons le plaisir de vous informer que votre commande référence <strong>${result.documentId}</strong> a été expédiée.</p><p>Merci pour votre confiance !</p><p>Cordialement,<br>L'équipe Kraze></p>`,
       })
           console.log('✅ Email expédié avec succès !');
 
