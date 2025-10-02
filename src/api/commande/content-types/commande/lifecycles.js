@@ -76,7 +76,7 @@ module.exports = {
         from: 'no-reply@kraze.fr',
         subject: `Votre commande Kraze a été expédiée`,
         text: `Bonjour ${result.nom_complet},\n\nNous avons le plaisir de vous informer que votre commande référence ${result.documentId} a été expédiée.\n\nMerci pour votre confiance !\n\nCordialement,\nL'équipe Kraze`,
-        html: `<p>Bonjour <strong>${result.nom_complet}</strong>,</p><p>Nous avons le plaisir de vous informer que votre commande référence <strong>${result.documentId}</strong> a été expédiée.</p><p>Merci pour votre confiance !</p><p>Cordialement,<br>L'équipe Kraze></p>`,
+        html: `<p>Bonjour <strong>${result.nom_complet}</strong>,</p><p>Nous avons le plaisir de vous informer que votre commande référence <strong>${result.documentId}</strong> a été expédiée.</p><p>Merci pour votre confiance !</p><p>Cordialement,<br>L'équipe Kraze</p>`,
       })
           console.log('✅ Email expédié avec succès !');
 
