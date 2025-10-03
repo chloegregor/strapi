@@ -123,9 +123,11 @@ module.exports ={
 
     }
 
-    if (event.type === 'payment_intent.payment_failed') {
+    if (event.type === 'checkout.session.expired') {
       const session  = event.data.object
       const items = session.metadata.items ? JSON.parse(session.metadata.items) : [];
+      console.log("session expirée, items:", items)
+
        ctx.send({
         received: true
       });
