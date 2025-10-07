@@ -56,7 +56,6 @@ module.exports ={
 
           const createCommandeLine = await Promise.all(
             items.map (async (item) => {
-              console.log("creatin g commande line for item:", item);
               const data = {
                 ...(item.type === "produit" ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
                 name: `${item.name} / ${item.taille} qty: ${item.quantity}`,
@@ -74,8 +73,6 @@ module.exports ={
                 documentId: item.documentId
               });
             }
-
-            console.log("pcs trouvé oui oui:", product);
 
             if (!product) {
               console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
@@ -96,9 +93,6 @@ module.exports ={
               status: 'published'
             })
 
-            console.log("pcs mis à jour:", product);
-
-            console.log("data for commande line:", data);
             return await strapi.entityService.create('api::commande-line.commande-line', {data}
             )
           }))
@@ -127,7 +121,6 @@ module.exports ={
     if (event.type === 'checkout.session.expired') {
       const session  = event.data.object
       const items = session.metadata.items ? JSON.parse(session.metadata.items) : [];
-      console.log("session expirée, items:", items)
 
        ctx.send({
         received: true
@@ -153,7 +146,6 @@ module.exports ={
                 documentId: item.documentId,
                 status: 'published'
               })
-              console.log("pcs d'expired session trouvée", pcs)
               if (!pcs) {
               console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
               throw new Error(`Produit Couleur Size with ID ${item.documentId} not found`);
