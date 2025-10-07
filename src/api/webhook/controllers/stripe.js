@@ -92,7 +92,8 @@ module.exports ={
               data: {
                 stock: (product.stock - item.quantity),
                 reserve: (product.reserve - item.quantity)
-              }
+              },
+              status: 'published'
             })
 
             console.log("pcs mis à jour:", product);
