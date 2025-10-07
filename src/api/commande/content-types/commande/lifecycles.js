@@ -54,7 +54,8 @@ module.exports = {
       documentId: result.documentId,
       data: {
         email_sent:true
-      }
+      },
+      status: 'published'
     })
 
     }catch(error) {

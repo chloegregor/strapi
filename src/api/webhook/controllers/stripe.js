@@ -149,7 +149,8 @@ module.exports ={
               }
 
               let pcs = await strapi.documents(endpoint).findOne({
-                documentId: item.documentId
+                documentId: item.documentId,
+                status: 'published'
               })
               console.log("pcs d'expired session trouvée", pcs)
               if (!pcs) {
@@ -160,7 +161,8 @@ module.exports ={
               documentId: item.documentId,
               data: {
                 reserve: (pcs.reserve - item.quantity)
-              }
+              },
+              status: 'published'
             })
 
             }
