@@ -9,10 +9,12 @@ module.exports = {
     }
 
     if (result.publishedAt === null) {
+      console.log('Commande non publiée, email non envoyé.');
       return;
     }
 
        if (result.email_sent === true) {
+      console.log('Email déjà envoyé pour cette commande, pas de renvoi.');
       return;
     }
 
