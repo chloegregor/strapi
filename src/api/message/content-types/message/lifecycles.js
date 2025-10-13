@@ -12,7 +12,7 @@ module.exports = {
 
     try {
       await strapi.plugins['email'].services.email.send({
-        to: 'contact@kraze.fr',
+        to: ['contact@kraze.fr','jeannesarahzipper@gmail.com'],
         from: 'no-reply@kraze.fr',
         subject: `Nouveau message de ${clientName}`,
         text: `Vous avez reçu un nouveau message de ${clientName} (${clientEmail}

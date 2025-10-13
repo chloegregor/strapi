@@ -164,6 +164,7 @@ module.exports ={
         }catch(error){
 
           console.error('⚠️ Error updating reserve from expired product:', error);
+
           return ctx.badRequest('Webhook Error: Invalid metadata format');
         }
       })();
