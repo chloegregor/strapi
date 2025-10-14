@@ -12,7 +12,8 @@
   "pluginOptions": {},
   "attributes": {
     "tag": {
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   }
 }

@@ -13,7 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "slug": {
       "type": "uid",
@@ -21,27 +22,30 @@
       "required": true
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "composition": {
-      "displayName": "composition_item",
       "type": "component",
+      "component": "shared.composition-item",
       "repeatable": true,
-      "component": "shared.composition-item"
+      "required": true
     },
     "price": {
       "type": "decimal",
+      "required": true,
       "default": 0,
       "min": 0
+    },
+    "entretien": {
+      "type": "text",
+      "required": true
     },
     "produit_couleurs": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::produit-couleur.produit-couleur",
       "mappedBy": "produit"
-    },
-    "entretien": {
-      "type": "text"
     }
   }
 }

@@ -10,9 +10,12 @@
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "couleur": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "produit_couleurs": {
       "type": "relation",
@@ -22,8 +25,9 @@
     },
     "hex": {
       "type": "component",
+      "component": "shared.hex",
       "repeatable": true,
-      "component": "shared.hex"
+      "required": true
     }
   }
 }

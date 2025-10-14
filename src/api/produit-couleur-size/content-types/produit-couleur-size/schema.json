@@ -10,22 +10,26 @@
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
+    "stock": {
+      "type": "integer",
+      "required": true
+    },
+    "taille": {
+      "type": "string",
+      "required": true
+    },
+    "reserve": {
+      "type": "integer",
+      "required": true,
+      "default": 0
+    },
     "produit_couleur": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::produit-couleur.produit-couleur",
       "inversedBy": "produit_couleur_sizes"
-    },
-    "stock": {
-      "type": "integer"
-    },
-    "taille": {
-      "type": "string"
-    },
-    "reserve": {
-      "type": "integer",
-      "default": 0
     }
   }
 }

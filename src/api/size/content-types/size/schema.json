@@ -10,15 +10,16 @@
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "symbole": {
       "type": "string"
     },
     "tour_de_taille": {
-      "type": "decimal"
+      "type": "string"
     },
     "tour_de_poitrine": {
-      "type": "decimal"
+      "type": "string"
     }
   }
 }

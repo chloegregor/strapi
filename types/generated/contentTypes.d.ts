@@ -462,11 +462,14 @@ export interface ApiCouleurCouleur extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    couleur: Schema.Attribute.String;
+    couleur: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    hex: Schema.Attribute.Component<'shared.hex', true>;
+    hex: Schema.Attribute.Component<'shared.hex', true> &
+      Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -595,7 +598,7 @@ export interface ApiMatiereMatiere extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    type: Schema.Attribute.String;
+    type: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -646,7 +649,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
   attributes: {
     content: Schema.Attribute.DynamicZone<
       ['shared.texte-image', 'shared.titre-page']
-    >;
+    > &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -654,8 +658,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'titre'>;
-    titre: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'titre'> & Schema.Attribute.Required;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -676,7 +680,7 @@ export interface ApiPieceUniquePieceUnique extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -686,14 +690,19 @@ export interface ApiPieceUniquePieceUnique extends Struct.CollectionTypeSchema {
     photos: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
-    >;
-    price: Schema.Attribute.Decimal;
+    > &
+      Schema.Attribute.Required;
+    price: Schema.Attribute.Decimal & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    reserve: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    slug: Schema.Attribute.UID<'titre'>;
-    stock: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
+    reserve: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<0>;
+    slug: Schema.Attribute.UID<'titre'> & Schema.Attribute.Required;
+    stock: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<1>;
     tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
-    titre: Schema.Attribute.String;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -727,9 +736,11 @@ export interface ApiProduitCouleurSizeProduitCouleurSize
       'api::produit-couleur.produit-couleur'
     >;
     publishedAt: Schema.Attribute.DateTime;
-    reserve: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    stock: Schema.Attribute.Integer;
-    taille: Schema.Attribute.String;
+    reserve: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<0>;
+    stock: Schema.Attribute.Integer & Schema.Attribute.Required;
+    taille: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -759,7 +770,9 @@ export interface ApiProduitCouleurProduitCouleur
       'api::produit-couleur.produit-couleur'
     > &
       Schema.Attribute.Private;
-    nom: Schema.Attribute.String & Schema.Attribute.Required;
+    nom: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'remplacer par : NOM DU CORSET-COULEUR'>;
     photo: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
@@ -789,20 +802,22 @@ export interface ApiProduitProduit extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    composition: Schema.Attribute.Component<'shared.composition-item', true>;
+    composition: Schema.Attribute.Component<'shared.composition-item', true> &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
-    entretien: Schema.Attribute.Text;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    entretien: Schema.Attribute.Text & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::produit.produit'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     price: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
         {
           min: 0;
@@ -842,8 +857,8 @@ export interface ApiSizeSize extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     symbole: Schema.Attribute.String;
-    tour_de_poitrine: Schema.Attribute.Decimal;
-    tour_de_taille: Schema.Attribute.Decimal;
+    tour_de_poitrine: Schema.Attribute.String;
+    tour_de_taille: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -868,7 +883,7 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    tag: Schema.Attribute.String;
+    tag: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

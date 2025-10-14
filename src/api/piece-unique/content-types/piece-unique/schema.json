@@ -12,14 +12,17 @@
   "pluginOptions": {},
   "attributes": {
     "titre": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "photos": {
       "type": "media",
       "multiple": true,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
@@ -28,14 +31,17 @@
       ]
     },
     "price": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true
     },
     "stock": {
       "type": "integer",
+      "required": true,
       "default": 1
     },
     "reserve": {
       "type": "integer",
+      "required": true,
       "default": 0
     },
     "tags": {
@@ -45,7 +51,8 @@
     },
     "slug": {
       "type": "uid",
-      "targetField": "titre"
+      "targetField": "titre",
+      "required": true
     }
   }
 }

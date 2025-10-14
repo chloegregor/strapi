@@ -10,9 +10,11 @@
   "options": {
     "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "type": {
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   }
 }
