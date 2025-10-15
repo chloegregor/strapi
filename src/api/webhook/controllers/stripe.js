@@ -61,11 +61,13 @@ module.exports ={
               let product;
               if (item.type === "produit") {
                 product = await strapi.documents('api::produit-couleur-size.produit-couleur-size').findOne({
-                  documentId: item.documentId
+                  documentId: item.documentId,
+                  populate: ['produit_couleur']
                 });
               } else if (item.type === "piece-unique") {
                 product = await strapi.documents('api::piece-unique.piece-unique').findOne({
                   documentId: item.documentId
+
                 });
               }
 
@@ -79,7 +81,7 @@ module.exports ={
                 throw new Error(`Insufficient stock for Produit Couleur Size with ID ${item.documentId}`);
               }
 
-
+              console.log('→ §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§%%%%%%%%%§§§§§§§Product before update:', product);
 
               product = await strapi.documents(item.type ==="produit" ? 'api::produit-couleur-size.produit-couleur-size' : 'api::piece-unique.piece-unique').update({
                 documentId: item.documentId,
