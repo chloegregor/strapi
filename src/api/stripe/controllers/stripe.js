@@ -4,6 +4,7 @@ module.exports = {
   async getStripeSession(ctx) {
     try {
       const sessionId = ctx.params.sessionId;
+      console.log('Retrieving Stripe session for ID:', sessionId);
       if (!sessionId) {
         return ctx.badRequest('Session ID is required');
       }
@@ -22,7 +23,7 @@ module.exports = {
 
     return ctx.send(session)
     }catch (error) {
-    console.error('Error retrieving Stripe session:', error);
+    console.error('Error retrieving Stripe session:', error.message);
     return ctx.internalServerError({error:'Failed to retrieve Stripe session', details: error.message});
 
     }
