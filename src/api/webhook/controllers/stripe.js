@@ -83,6 +83,11 @@ module.exports ={
 
               console.log('→ §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§%%%%%%%%%§§§§§§§Product before update:', product);
 
+              const data = {
+                ...(product.taille ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
+                name:(product.taille ? `${product.produit_couleur.nom} / ${product.taille}` :`${product.titre}` ),
+                quantity: item.quantity,
+              }
               product = await strapi.documents(item.type ==="produit" ? 'api::produit-couleur-size.produit-couleur-size' : 'api::piece-unique.piece-unique').update({
                 documentId: item.documentId,
                 data: {
@@ -92,11 +97,6 @@ module.exports ={
                 status: 'published'
               })
 
-              const data = {
-                ...(product.taille ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
-                name:(product.taille ? `${product.produit_couleur.nom} / ${product.taille}` :`${product.titre}` ),
-                quantity: item.quantity,
-              }
 
             return await strapi.entityService.create('api::commande-line.commande-line', {data}
             )
