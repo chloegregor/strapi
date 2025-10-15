@@ -23,7 +23,8 @@ module.exports = {
     return ctx.send(session)
     }catch (error) {
     console.error('Error retrieving Stripe session:', error);
-    return ctx.internalServerError('Failed to retrieve Stripe session');
+    return ctx.internalServerError({error:'Failed to retrieve Stripe session', details: error.message});
+
     }
   }
 }
