@@ -12,6 +12,14 @@ module.exports = {
         expand: ['line_items', 'customer_details'],
     })
     console.log('Stripe session retrieved:', session);
+
+    const metadataItems = session.metadata.items ? JSON.parse(session.metadata.items) : [];
+
+    const items = await Promise.all(
+      metadataItems.map (async (item) => {
+        let product = await strapi.documents()
+      }))
+
     return ctx.send(session)
     }catch (error) {
     console.error('Error retrieving Stripe session:', error);

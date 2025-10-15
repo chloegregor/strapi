@@ -19,7 +19,6 @@ module.exports ={
     const sig = ctx.request.headers['stripe-signature'];
     console.log('→ sig salulu:', sig); // debug
     const webhookSecret = process.env.SECRET_STRIPE_WEBHOOK;
-    console.log('→ webhookSecret:', `"${webhookSecret}"`);
     let event;
     try {
       const rawBody = ctx.request.body[Symbol.for("unparsedBody")];
@@ -58,22 +57,23 @@ module.exports ={
             items.map (async (item) => {
 
 
-              let product;
-              if (item.type === "produit") {
-                product = await strapi.documents('api::produit-couleur-size.produit-couleur-size').findOne({
-                  documentId: item.documentId,
-                  populate: ['produit_couleur']
-                });
-              } else if (item.type === "piece-unique") {
-                product = await strapi.documents('api::piece-unique.piece-unique').findOne({
-                  documentId: item.documentId
-
-                });
-              }
+              let product = await strapi.documents('api::produit-couleur-size.produit-couleur-size').findOne({
+                documentId: item.documentId,
+                populate: ['produit_couleur'],
+                status: 'published'
+              })
 
               if (!product) {
-                console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
-                throw new Error(`Produit Couleur Size with ID ${item.documentId} not found`);
+                product = await strapi.documents('api::piece-unique.piece-unique').findOne({
+                  documentId: item.documentId,
+                  status: 'published'
+                })
+              }
+
+
+              if (!product) {
+                console.error(`⚠️ Produit  with ID ${item.documentId} not found`);
+                throw new Error(`Produit  with ID ${item.documentId} not found`);
               }
 
               if (product.stock < item.quantity) {
@@ -81,14 +81,15 @@ module.exports ={
                 throw new Error(`Insufficient stock for Produit Couleur Size with ID ${item.documentId}`);
               }
 
-              console.log('→ §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§%%%%%%%%%§§§§§§§Product before update:', product);
-
               const data = {
                 ...(product.taille ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
                 name:(product.taille ? `${product.produit_couleur.nom} / ${product.taille}` :`${product.titre}` ),
                 quantity: item.quantity,
               }
-              product = await strapi.documents(item.type ==="produit" ? 'api::produit-couleur-size.produit-couleur-size' : 'api::piece-unique.piece-unique').update({
+
+              const endpoint = product.taille ? 'api::produit-couleur-size.produit-couleur-size' : 'api::piece-unique.piece-unique'
+
+              product = await strapi.documents(endpoint).update({
                 documentId: item.documentId,
                 data: {
                   stock: (product.stock - item.quantity),
@@ -136,29 +137,31 @@ module.exports ={
         try{
           await Promise.all(
             items.map(async (item) => {
-            let endpoint
 
-              if (item.type === "produit") {
-                  endpoint = 'api::produit-couleur-size.produit-couleur-size'
-              } else if (item.type === "piece-unique") {
-                  endpoint = 'api::piece-unique.piece-unique'
-              } else {
-                console.error(`⚠️ Unknown item type: ${item.type}`);
-                throw new Error(`Unknown item type: ${item.type}`);
-              }
 
-              let pcs = await strapi.documents(endpoint).findOne({
+              let product = await strapi.documents('api::produit-couleur-size.produit-couleur-size').findOne({
                 documentId: item.documentId,
                 status: 'published'
               })
-              if (!pcs) {
-              console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
-              throw new Error(`Produit Couleur Size with ID ${item.documentId} not found`);
 
-            } pcs = await strapi.documents(endpoint).update({
+              if (!product) {
+                product = await strapi.documents('api::piece-unique.piece-unique').findOne({
+                  documentId: item.documentId,
+                  status: 'published'
+                })
+              }
+
+              if (!product) {
+                console.error(`⚠️ Produit  with ID ${item.documentId} not found`);
+                throw new Error(`Produit  with ID ${item.documentId} not found`);
+              }
+
+              const endpoint = product.taille ? 'api::produit-couleur-size.produit-couleur-size' : 'api::piece-unique.piece-unique'
+
+              product = await strapi.documents(endpoint).update({
               documentId: item.documentId,
               data: {
-                reserve: (pcs.reserve - item.quantity)
+                reserve: (product.reserve - item.quantity)
               },
               status: 'published'
             })
