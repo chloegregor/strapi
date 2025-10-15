@@ -56,42 +56,45 @@ module.exports ={
 
           const createCommandeLine = await Promise.all(
             items.map (async (item) => {
-              const data = {
-                ...(item.type === "produit" ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
-                name: `${item.name} / ${item.taille} qty: ${item.quantity}`,
-                quantity: item.quantity,
+
+
+              let product;
+              if (item.type === "produit") {
+                product = await strapi.documents('api::produit-couleur-size.produit-couleur-size').findOne({
+                  documentId: item.documentId
+                });
+              } else if (item.type === "piece-unique") {
+                product = await strapi.documents('api::piece-unique.piece-unique').findOne({
+                  documentId: item.documentId
+                });
+              }
+
+              if (!product) {
+                console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
+                throw new Error(`Produit Couleur Size with ID ${item.documentId} not found`);
+              }
+
+              if (product.stock < item.quantity) {
+                console.error(`⚠️ Insufficient stock for Produit Couleur Size with ID ${item.documentId}`);
+                throw new Error(`Insufficient stock for Produit Couleur Size with ID ${item.documentId}`);
               }
 
 
-            let product;
-            if (item.type === "produit") {
-              product = await strapi.documents('api::produit-couleur-size.produit-couleur-size').findOne({
-                documentId: item.documentId
-              });
-            } else if (item.type === "piece-unique") {
-              product = await strapi.documents('api::piece-unique.piece-unique').findOne({
-                documentId: item.documentId
-              });
-            }
 
-            if (!product) {
-              console.error(`⚠️ Produit Couleur Size with ID ${item.documentId} not found`);
-              throw new Error(`Produit Couleur Size with ID ${item.documentId} not found`);
-            }
+              product = await strapi.documents(item.type ==="produit" ? 'api::produit-couleur-size.produit-couleur-size' : 'api::piece-unique.piece-unique').update({
+                documentId: item.documentId,
+                data: {
+                  stock: (product.stock - item.quantity),
+                  reserve: (product.reserve - item.quantity)
+                },
+                status: 'published'
+              })
 
-            if (product.stock < item.quantity) {
-              console.error(`⚠️ Insufficient stock for Produit Couleur Size with ID ${item.documentId}`);
-              throw new Error(`Insufficient stock for Produit Couleur Size with ID ${item.documentId}`);
-            }
-
-            product = await strapi.documents(item.type ==="produit" ? 'api::produit-couleur-size.produit-couleur-size' : 'api::piece-unique.piece-unique').update({
-              documentId: item.documentId,
-              data: {
-                stock: (product.stock - item.quantity),
-                reserve: (product.reserve - item.quantity)
-              },
-              status: 'published'
-            })
+              const data = {
+                ...(product.taille ? {produit_couleur_size: item.documentId} : {piece_unique: item.documentId}),
+                name:(product.taille ? `${product.produit_couleur.nom} / ${product.taille}` :`${product.titre}` ),
+                quantity: item.quantity,
+              }
 
             return await strapi.entityService.create('api::commande-line.commande-line', {data}
             )
