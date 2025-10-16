@@ -39,14 +39,14 @@ module.exports = {
         to: ['contact@kraze.fr','jeannesarahzipper@gmail.com'],
         subject: `Nouvelle commande de ${clientName} `,
         text: `Vous avez reçu une nouvelle commande de ${clientName} (${clientEmail}) - REFERENCE: ${result.documentId}\n\nAdresse: ${clientAddress}\n\nDétails de la commande:\n${commandeLines.map(line => `- ${line.name}`).join('\n')}`,
-        html: `<p>Vous avez reçu une nouvelle commande de <strong>${clientName}</strong> (${clientEmail})</p><p>REFERENCE: ${result.documentId}</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name} ${line.quantity} </li>`).join('')}</ul>`,
+        html: `<p>Vous avez reçu une nouvelle commande de <strong>${clientName}</strong> (${clientEmail})</p><p>REFERENCE: ${result.documentId}</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name} x ${line.quantity} </li>`).join('')}</ul>`,
     })
 
     await strapi.plugins['email'].services.email.send({
         to: clientEmail,
         subject: `Confirmation de votre commande`,
         text: `Bonjour ${clientName},\n\nMerci pour votre commande !\n\nAdresse: ${clientAddress}\n\nDétails de la commande:\n${commandeLines.map(line => `- ${line.name}`).join('\n')}\n\nNous vous informerons lorsqu'elle aura été expédiée.\n\nCordialement,\n Kraze`,
-        html: `<p>Bonjour <strong>${clientName}</strong>,</p><p>Merci pour votre commande !<p> Référence : ${result.documentId}</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name} ${line.quantity}</li>`).join('')}</ul><p>Nous vous informerons lorsqu'elle aura été expédiée.</p><p>Cordialement,<br>Kraze</p>
+        html: `<p>Bonjour <strong>${clientName}</strong>,</p><p>Merci pour votre commande !<p> Référence : ${result.documentId}</p><p>Adresse: ${clientAddress}</p><p>Détails de la commande:</p><ul>${commandeLines.map(line => `<li>${line.name} x ${line.quantity}</li>`).join('')}</ul><p>Nous vous informerons lorsqu'elle aura été expédiée.</p><p>Cordialement,<br>Kraze</p>
         `,
     })
 
