@@ -28,7 +28,6 @@ module.exports = {
 
       }
     })
-    console.log('Commande complète récupérée:', commandeComplete);
 
     const clientEmail = commandeComplete.email;
     const clientName = commandeComplete.nom_complet;
@@ -66,7 +65,7 @@ module.exports = {
 
   async afterUpdate(event) {
     const { result, params } = event;
-        
+
 
    if (result.expediee === true) {
     try{

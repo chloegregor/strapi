@@ -15,7 +15,6 @@ function FormAddress(address){
 
 module.exports ={
   async handleStripeWebhook(ctx) {
-      console.log('→ Entrée dans handleStripeWebhook');
     const sig = ctx.request.headers['stripe-signature'];
     console.log('→ sig salulu:', sig); // debug
     const webhookSecret = process.env.SECRET_STRIPE_WEBHOOK;
@@ -115,7 +114,6 @@ module.exports ={
 
           })
 
-          console.log('→ Commande created successfully');
         } catch (error) {
           console.error('⚠️ Error processing checkout.session.completed:', error);
         }

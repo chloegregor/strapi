@@ -4,7 +4,6 @@ module.exports = {
   async getStripeSession(ctx) {
     try {
       const sessionId = ctx.params.sessionId;
-      console.log('Retrieving Stripe session for ID:', sessionId);
       if (!sessionId) {
         return ctx.badRequest('Session ID is required');
       }
@@ -13,19 +12,12 @@ module.exports = {
         expand: ['line_items', 'customer_details'],
     })
     console.log('Stripe session retrieved:', session);
+    
+    ctx.body = session;
 
-    const metadataItems = session.metadata.items ? JSON.parse(session.metadata.items) : [];
-
-    const items = await Promise.all(
-      metadataItems.map (async (item) => {
-        let product = await strapi.documents()
-      }))
-
-    return ctx.send(session)
     }catch (error) {
-    console.error('Error retrieving Stripe session:', error.message);
-    return ctx.internalServerError({error:'Failed to retrieve Stripe session', details: error.message});
-
+    console.error('Error retrieving Stripe session:', error);
+    return ctx.internalServerError('Failed to retrieve Stripe session');
     }
   }
 }
