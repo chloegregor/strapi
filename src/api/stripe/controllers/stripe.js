@@ -11,8 +11,7 @@ module.exports = {
       const session = await stripe.checkout.sessions.retrieve(sessionId, {
         expand: ['line_items', 'customer_details'],
     })
-    console.log('Stripe session retrieved:', session);
-    
+
     ctx.body = session;
 
     }catch (error) {

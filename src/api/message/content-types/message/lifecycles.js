@@ -20,7 +20,6 @@ module.exports = {
         html: `<p>Vous avez reçu un nouveau message de <strong>${clientName}</strong> (${clientEmail}):</p><p>${clientMessage}</p>`,
 
     })
-     console.log("✅ Email envoyé !");
     }catch(error) {
           console.error('Error sending email:', error);
     }
