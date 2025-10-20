@@ -4,17 +4,14 @@ module.exports = {
     console.log('AFTER CREATE triggered', result.id, new Date());
 
     if (!result.documentId) {
-      console.error('Commande non trouvée avec ID:', result.id);
       return;
     }
 
     if (result.publishedAt === null) {
-      console.log('Commande non publiée, email non envoyé.');
       return;
     }
 
        if (result.email_sent === true) {
-      console.log('Email déjà envoyé pour cette commande, pas de renvoi.');
       return;
     }
 
@@ -57,6 +54,7 @@ module.exports = {
       },
       status: 'published'
     })
+      console.log('✅ Emails envoyés avec succès !!!!!!!!!!!!!!!');
 
     }catch(error) {
           console.error('Error sending email:', error);
