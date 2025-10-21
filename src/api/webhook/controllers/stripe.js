@@ -16,10 +16,13 @@ function FormAddress(address){
 module.exports ={
   async handleStripeWebhook(ctx) {
     const sig = ctx.request.headers['stripe-signature'];
+    console.log('Received Stripe webhook with signature:', sig);
     const webhookSecret = process.env.SECRET_STRIPE_WEBHOOK;
+    console.log('Using webhook secret:', webhookSecret);
     let event;
     try {
       const rawBody = ctx.request.body[Symbol.for("unparsedBody")];
+      console.log('Raw body for webhook verification:', rawBody);
 
       if (!rawBody) {
         console.error('⚠️ No raw body found in the request');

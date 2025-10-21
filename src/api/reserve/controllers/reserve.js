@@ -15,7 +15,7 @@ module.exports = {
 
       const updatedEntry = await strapi.db.connection(table)
         .where('document_id', documentId)
-        .whereRaw('stock - reserve > ?', [quantity])
+        .whereRaw('stock - reserve >= ?', [quantity])
         .increment('reserve', quantity)
         .returning('*');
 
