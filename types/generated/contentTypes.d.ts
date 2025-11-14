@@ -443,6 +443,7 @@ export interface ApiCommandeCommande extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     nom_complet: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

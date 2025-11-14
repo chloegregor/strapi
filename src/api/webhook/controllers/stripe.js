@@ -52,6 +52,7 @@ module.exports ={
           const items = session.metadata.items ? JSON.parse(session.metadata.items) : [];
           const email = session.customer_details.email;
           const name = session.customer_details.name;
+          const phone = session.customer_details.phone;
           const address = FormAddress(session.customer_details.address || {});
 
           const createCommandeLine = await Promise.all(
@@ -110,9 +111,9 @@ module.exports ={
             email: email,
             nom_complet: name,
             addresse: address,
+            phone: phone,
             commande_lines: createCommandeLine.map(cl => cl.documentId)
             }
-
 
           })
 
